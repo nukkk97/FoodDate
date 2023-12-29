@@ -193,9 +193,10 @@ type RestaurantProps = {
   placeId: string;
   reviews: Review[];
   onNewImage: (newImageUrl: string, placeId: string) => void;
+  onRemoveLike: (placeId: string) => void;
 }
 
-export default function RestaurantCard({ name, address, types, lat, lng, userPositionLat, userPositionLng, rating, userRatingsTotal, priceLevel, photoReference, placeId, reviews,onNewImage }: RestaurantProps) {
+export default function RestaurantCard({ name, address, types, lat, lng, userPositionLat, userPositionLng, rating, userRatingsTotal, priceLevel, photoReference, placeId, reviews,onNewImage,onRemoveLike }: RestaurantProps) {
   const { data: session, status } = useSession();
   const isLoggedIn = status === 'authenticated';
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -269,6 +270,7 @@ export default function RestaurantCard({ name, address, types, lat, lng, userPos
         return;
       }
       setIsLiked(false);
+      onRemoveLike(placeId);
     }
   }
 

@@ -201,7 +201,15 @@ export default function RestaurantPage() {
       )
     );
   };
-
+  const handleRemoveLike = (placeIdToRemove: string) => {
+    setTaggedRestaurants(currentTaggedRestaurants => {
+      if (currentTaggedRestaurants) {
+        return currentTaggedRestaurants.filter(place => place.placeId !== placeIdToRemove);
+      }
+      return currentTaggedRestaurants;
+    });
+  }
+  
 
   const handleShowAllClick = () => {
     setAllRes(true);
@@ -214,10 +222,9 @@ export default function RestaurantPage() {
     setShowTags(false);
   }
   const handleShowTags = () => {
-    if (showTags){
     setAllRes(false);
     setOnlySel(false);
-    setShowTags(true);}
+    setShowTags(true);
   }
 
   const blueMarkerIcon = {
@@ -454,6 +461,7 @@ export default function RestaurantPage() {
                     placeId={selectRestaurantPlaceId}
                     reviews={reviews}
                     onNewImage={handleNewImage}
+                    onRemoveLike={handleRemoveLike}
                   />}
                   {/*Array.from({ length: 0 }).map((_, index) => (
                     <RestaurantCard
