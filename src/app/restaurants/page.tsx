@@ -30,7 +30,9 @@ import {
   DialogContent,
   ListItem,
   List,
-  DialogActions
+  DialogActions,
+  Alert,
+  Snackbar
 } from "@mui/material";
 import NavigationIcon from '@mui/icons-material/Navigation';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -114,10 +116,13 @@ export default function RestaurantPage() {
   const [selectImageUrls, setSelectImageUrls] = useState([]);
   const initialized = useRef(false);
   const [loading,setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const { data: session, status,update } = useSession();
   const handleVerify = async () => {
     if (session?.user?.coins&&session?.user?.coins-50 < 0){
-      alert('餘額不足！請充值！');
+      setErrorMessage('餘額不足！請充值！');
+      setHasError(true);
+      //alert('餘額不足！請充值！');
       return;
     }
     setLoading(true);
@@ -216,6 +221,10 @@ export default function RestaurantPage() {
   const [isSetting, setIsSetting] = useState(false);
   const [currentDisplayIndex, setCurrentDisplayIndex] = useState(0);
   const [isShuffling, setIsShuffling] = useState(false);
+  const [hasError, setHasError] = useState<boolean>(false);
+  const handleCloseError = () => {
+    setHasError(false);
+  }
   const startShuffling = async () => {
     handleClose();
     setShowTags(false);
@@ -546,6 +555,20 @@ export default function RestaurantPage() {
 
   return (
     <>
+    <Snackbar
+        open={hasError}
+        autoHideDuration={2000}
+        onClose={handleCloseError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseError}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
       <main className="flex h-full items-center justify-center w-full">
         <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
           {(selectRestaurant &&
