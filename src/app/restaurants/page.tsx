@@ -6,7 +6,7 @@ import {
   Marker,
 } from "@vis.gl/react-google-maps";
 import { useState, useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
+
 import { keyframes } from '@emotion/react';
 
 const pulseAnimation = keyframes`
@@ -50,10 +50,9 @@ import { grey, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-const Wheel = dynamic(
-  () => import('react-custom-roulette').then(mod => mod.Wheel),
-  { ssr: false }
-)
+
+
+export const dynamic = 'force-dynamic';
 interface Restaurant {
   placeId: string,
   name: string,
@@ -780,39 +779,7 @@ export default function RestaurantPage() {
             </Dialog>
 
 
-            <Modal
-              open={showRoulette}
-              onClose={() => setShowRoulette(false)}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={style}>
-                <Typography
-                  id="modal-modal-title"
-                  variant="h4"
-                  className="text-center"
-                >
-                  讓我幫你抽要吃什麼吧
-                </Typography>
-                <Typography
-                  id="modal-modal-description"
-                  className="mt-2 text-center"
-                >
-                  每次抽籤花費 20 金幣
-                </Typography>
-                <Wheel
-                  mustStartSpinning={false}
-                  prizeNumber={3}
-                  data={wheelData}
-                  backgroundColors={['#3e3e3e', '#df3428']}
-                  textColors={['#ffffff']}
-                  onStopSpinning={() => {
-                    setMustSpin(false);
-                  }}
-                />
-                <Button onClick={() => setMustSpin(true)}>Spin</Button>
-              </Box>
-            </Modal>
+            
           </div>
         </APIProvider>
       </main>
