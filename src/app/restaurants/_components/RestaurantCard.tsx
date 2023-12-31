@@ -43,6 +43,7 @@ import { useRouter } from 'next/navigation';
 import { CldUploadWidget } from 'next-cloudinary';
 import { publicEnv } from '@/lib/env/public';
 import React from 'react';
+export const dynamic = 'force-dynamic';
 
 
 const translateTypeToChinese = (type: string): string => {
